@@ -28,9 +28,11 @@
 <body>
 <header id="header">
     <div class="header-middle">
+        
         <div class="container">
+            
             <div class="row">
-                <div class="col-sm-4">
+            <div class="col-sm-4">
                     <div class="logo pull-left">
                         <a href="/trang-chu"><img src="/fontend/images/logolaptop.png" alt="" /></a>
                     </div>

@@ -177,7 +177,8 @@ a#scrollUp i{
 
 /* Logo */
 .logo img {
-    max-height: 50px; /* Thu nhỏ logo nếu quá to */
+  border-radius: 50%;
+    max-height: 56px; /* Thu nhỏ logo nếu quá to */
 }
 
 

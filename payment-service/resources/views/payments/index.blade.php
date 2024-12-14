@@ -1,4 +1,3 @@
-<!-- resources/views/payments/index.blade.php -->
 @extends('layouts.layout')
 
 @section('content')
@@ -19,11 +18,49 @@
                 <tr>
                     <td>{{ $payment->id }}</td>
                     <td>{{ $payment->order_id }}</td>
-                    <td>{{ $payment->payment_method }}</td>
-                    <td>{{ $payment->payment_status }}</td>
-                    <td>{{ $payment->amount }}</td>
+                    <td>{{ ucfirst($payment->payment_method) }}</td>
                     <td>
-                        <a href="{{ url('/payments/' . $payment->id) }}" class="btn btn-info">View</a>
+                        @if ($payment->payment_status === 'success')
+                            <span class="badge bg-success">Thành công</span>
+                        @elseif ($payment->payment_status === 'pending')
+                            <span class="badge bg-warning">Chờ xử lý</span>
+                        @else
+                            <span class="badge bg-danger">Thất bại</span>
+                        @endif
+                    </td>
+                    <td>{{ number_format($payment->amount, 2) }} VND</td>
+                    <td>
+                        @if ($payment->payment_status === 'pending')
+                            <div class="btn-group">
+                                <!-- Chỉ hiển thị nút thanh toán MoMo nếu payment_method là momo -->
+                                @if ($payment->payment_method === 'MoMo')
+                                    <form action="{{ url('/payments/momo') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="order_id" value="{{ $payment->order_id }}">
+                                        <input type="hidden" name="amount" value="{{ $payment->amount }}">
+                                        <button type="submit" name='payUrl' class="btn btn-primary btn-sm">
+                                            <img src="{{ asset('/fontend/images/momo-logo.png') }}" alt="MoMo" style="width: 20px; height: auto; margin-right: 5px;">
+                                            Thanh toán MoMo
+                                        </button>
+                                    </form>
+                                @endif
+
+                                <!-- Chỉ hiển thị nút thanh toán VNPay nếu payment_method là vnpay -->
+                                @if ($payment->payment_method === 'VNPay')
+                                    <form action="{{ url('/payments/vnpay') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="order_id" value="{{ $payment->order_id }}">
+                                        <input type="hidden" name="amount" value="{{ $payment->amount }}">
+                                        <button type="submit" name="vnpay" class="btn btn-secondary btn-sm">
+                                            <img src="{{ asset('/fontend/images/vnpay-logo.png') }}" alt="VNPay" style="width: 20px; height: auto; margin-right: 5px;">
+                                            Thanh toán VNPay
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        @else
+                            <button class="btn btn-light btn-sm" disabled>Đã thanh toán</button>
+                        @endif
                     </td>
                 </tr>
             @endforeach
