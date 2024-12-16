@@ -51,7 +51,7 @@
                                         @csrf
                                         <input type="hidden" name="order_id" value="{{ $payment->order_id }}">
                                         <input type="hidden" name="amount" value="{{ $payment->amount }}">
-                                        <button type="submit" name="vnpay" class="btn btn-secondary btn-sm">
+                                        <button type="submit" name="redirect" class="btn btn-secondary btn-sm">
                                             <img src="{{ asset('/fontend/images/vnpay-logo.png') }}" alt="VNPay" style="width: 20px; height: auto; margin-right: 5px;">
                                             Thanh toán VNPay
                                         </button>
