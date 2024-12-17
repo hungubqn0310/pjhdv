@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB; // Để làm việc trực tiếp với database
+use Illuminate\Support\Facades\Session; // Để quản lý session
 
 class AuthController extends Controller
 {
@@ -15,27 +17,33 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    // Đăng ký tài khoản
+    // Đăng ký tài khoản - Lưu thông tin trực tiếp vào DB
     public function register(Request $request)
     {
+        // Xác thực dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
             'username' => 'required|unique:user_pj,username',
             'email' => 'required|email|unique:user_pj,email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:6|confirmed',
+            'phone_number'=> 'required',
+            'address'=> 'required',          
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => 1, // Default role_id = 1 (User)
+        // Lưu thông tin trực tiếp vào cơ sở dữ liệu
+        DB::table('user_pj')->insert([
+            'username' => $request->input('username'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password'), // Lưu mật khẩu thô vào DB
+            'phone_number' => $request->input('phone_number'),
+            'address' => $request->input('address'),
+            'role_id' => 1,
         ]);
 
-        return redirect('/login')->with('success', 'Registration successful!');
+        return redirect('/login')->with('success', 'Đăng ký tài khoản thành công!');
     }
 
     // Hiển thị form đăng nhập
@@ -47,19 +55,32 @@ class AuthController extends Controller
     // Đăng nhập người dùng
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        // Xác thực dữ liệu đầu vào
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        if (auth()->attempt($credentials)) {
-            return redirect()->intended('dashboard'); // Redirect vào trang dashboard
+        // Kiểm tra thông tin đăng nhập
+        $user = DB::table('user_pj')->where('email', $request->email)->first();
+
+        // Kiểm tra người dùng có tồn tại và mật khẩu có đúng không
+        if ($user && $user->password === $request->password) {
+            // Mật khẩu trùng khớp
+            return redirect('/dashboard')->with('success', 'Login successful!');
         }
 
         return redirect()->back()->with('error', 'Invalid credentials');
     }
 
     // Đăng xuất
-    public function logout()
+    public function logout(Request $request)
     {
-        auth()->logout();
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 }

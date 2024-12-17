@@ -38,15 +38,14 @@
     </style>
 </head>
 <body>
-
 <section class="vh-100">
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-8 col-lg-6 col-xl-5">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
                     class="img-fluid rounded shadow-lg" alt="Sample image">
             </div>
-            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 mt-5">
                 <form action="{{ route('login') }}" method="POST" class="form-container">
                     @csrf
 
@@ -95,7 +94,7 @@
             </div>
         </div>
     </div>
-    <footer class="footer py-4 text-white text-center">
+    <footer class="footer py-4 text-white text-center fixed-bottom">
         <div>Copyright &copy; 2020. All rights reserved.</div>
         <div class="social-links mt-3">
             <a href="#" class="text-white me-4">
