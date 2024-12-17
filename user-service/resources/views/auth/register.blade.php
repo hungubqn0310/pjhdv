@@ -41,47 +41,54 @@
 
                         <!-- Tên người dùng -->
                         <div class="form-outline mb-4">
+                        <label class="form-label" for="username">Tên người dùng</label>
                             <input type="text" id="username" name="username" class="form-control form-control-lg"
                                 required>
-                            <label class="form-label" for="username">Tên người dùng</label>
+                            
                         </div>
 
                         <!-- Email -->
                         <div class="form-outline mb-4">
+                        <label class="form-label" for="email">Email</label>
                             <input type="email" id="email" name="email" class="form-control form-control-lg" required>
-                            <label class="form-label" for="email">Email</label>
+                            
                         </div>
 
                         <!-- Mật khẩu -->
                         <div class="form-outline mb-4">
+                        <label class="form-label" for="password">Mật khẩu</label>
                             <input type="password" id="password" name="password" class="form-control form-control-lg"
                                 required>
-                            <label class="form-label" for="password">Mật khẩu</label>
+                            
                         </div>
 
                         <!-- Nhập lại mật khẩu -->
                         <div class="form-outline mb-4">
+                        <label class="form-label" for="password_confirmation">Nhập lại mật khẩu</label>
                             <input type="password" id="password_confirmation" name="password_confirmation"
                                 class="form-control form-control-lg" required>
-                            <label class="form-label" for="password_confirmation">Nhập lại mật khẩu</label>
+
                         </div>
 
                         <!-- Số điện thoại -->
                         <div class="form-outline mb-4">
+                        <label class="form-label" for="phone_number">Số điện thoại</label>
                             <input type="phone_number" id="phone_number" name="phone_number"
                                 class="form-control form-control-lg" required>
-                            <label class="form-label" for="phone_number">Số điện thoại</label>
+                            
                         </div>
 
                         <!-- Địa chỉ -->
                         <div class="form-outline mb-4">
+                        <label class="form-label" for="address">Địa chỉ</label>
                             <input type="address" id="address" name="address" class="form-control form-control-lg"
                                 required>
-                            <label class="form-label" for="address">Địa chỉ</label>
+                            
                         </div>
 
                         <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Đăng ký</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block w-100" style="display: block; margin: 0 auto;">Đăng ký</button>
+
 
                         <!-- Link đến form đăng nhập -->
                         <div class="text-center mt-3">

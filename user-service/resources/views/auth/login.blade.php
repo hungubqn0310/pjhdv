@@ -12,6 +12,11 @@
         }
         .footer {
             background-color: #00264d;
+            position: relative; /* Thay đổi vị trí từ fixed sang relative */
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
         }
         .form-container {
             background: white;
@@ -50,7 +55,7 @@
                     @csrf
 
                     <div class="d-flex flex-row align-items-center justify-content-center mb-4">
-                        <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+                        <p class="lead fw-normal mb-0 me-3">Đăng nhập với</p>
                         <button type="button" class="btn btn-outline-primary btn-floating mx-1">
                             <i class="fab fa-facebook-f"></i>
                         </button>
@@ -68,7 +73,7 @@
 
                     <!-- Email input -->
                     <div class="form-outline mb-4">
-                        <label class="form-label" for="email">Email address</label>
+                        <label class="form-label" for="email">Email</label>
                         <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid email address" required />
                     </div>
 
@@ -95,7 +100,7 @@
         </div>
     </div>
     <footer class="footer py-4 text-white text-center fixed-bottom">
-        <div>Copyright &copy; 2020. All rights reserved.</div>
+        <div>Copyright &copy; 2024. All rights reserved.</div>
         <div class="social-links mt-3">
             <a href="#" class="text-white me-4">
                 <i class="fab fa-facebook-f"></i>
