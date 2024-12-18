@@ -94,6 +94,7 @@
                         <div class="text-center mt-3">
                             <p>Đã có tài khoản? <a href="/login">Đăng nhập ngay</a></p>
                         </div>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     </form>
                 </div>
             </div>
