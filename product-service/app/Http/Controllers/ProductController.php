@@ -28,7 +28,7 @@ class ProductController extends Controller
         //$this->AuthLogin();
         $cate_product = CategoryModel::orderBy('category_name', 'asc')->get();
         $discounts = DiscountModel::orderBy('discount_name', 'asc')->get();
-        return view('layout.admin.products.add_product', [
+        return response()->json([
             'cate_product' => $cate_product,
             'discounts' => $discounts,
         ]);
@@ -36,8 +36,7 @@ class ProductController extends Controller
     public function all_product(){
         //$this->AuthLogin();
     	$all_product = ProductModel::with(['category', 'discount'])->get();
-        return view('layout.admin.products.all_product', compact('all_product') );
-
+        return response()->json(['data' => $all_product]);
     }
 
     public function save_product(Request $request){
@@ -82,23 +81,17 @@ class ProductController extends Controller
     }
     public function edit_product($product_id){
         //$this->AuthLogin();
-        $cate_product = DB::table('tbl_category_product')->orderby('category_id','desc')->get(); 
-        $brand_product = DB::table('tbl_brand')->orderby('brand_id','desc')->get(); 
+        $edit_product = ProductModel::with(['category', 'discount'])->find($product_id);
+        return response()->json(['data' => $edit_product]);
 
-        $edit_product = DB::table('tbl_product')->where('product_id',$product_id)->get();
-
-        $manager_product  = view('layout.admin.products.edit_product')->with('edit_product',$edit_product)->with('cate_product',$cate_product)->with('brand_product',$brand_product);
-
-        return view('layout-admin')->with('layout.admin.products.edit_product', $manager_product);
     }
 
     public function update_product(Request $request,$product_id){
         $request->validate([
             'product_name' => 'required|string|max:255',
-            'category_id' => 'required|integer|exists:tbl_category_product',
-            'brand_id' => 'required|integer|exists:tbl_brand',
+            'category_id' => 'required|integer|exists:categories',
+            'discount_id' => 'required|integer|exists:discounts',
             'product_desc' => 'nullable|string',
-            'product_content' => 'nullable|string',
             'product_price' => 'required|numeric|min:0',
             'product_image' => 'nullable|image',
         ]);
@@ -110,23 +103,18 @@ class ProductController extends Controller
             $image->move(public_path('upload/product'), $imagePath);
         }
 
-        $product = ProductModel::find($product_id);
-        if (!$product) {
-            return response()->json(['message' => 'Không tìm thấy thương hiệu'], 404);
-        }
+        $product = ProductModel::findOrFail($product_id);
 
         $product ->update([
             'product_name' => $request->input('product_name'),
             'category_id' => $request->input('product_cate'),
-            'brand_id' => $request->input('brand_id'),
+            'discount_id' => $request->input('discount_id'),
             'product_desc' => $request->input('product_desc'),
-            'product_content' => $request->input('product_content'),
             'product_price' => $request->input('product_price'),
             'product_image' => $imagePath,
         ]);
-        $product->save();
 
-        return response()->json(['message' => 'Thêm danh mục sản phẩm thành công','data' => $product], 201);
+        return response()->json(['data' => $product, 'redirect' => ('/all-product')], 200);
     }
 
     public function delete_product($product_id){

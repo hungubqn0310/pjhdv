@@ -23,15 +23,12 @@ class CategoryController extends Controller
     //     }
     // }
 
-    public function add_category_product(){
-        //$this->AuthLogin();
-    	return view('layout.admin.categories.add_category_product');
-    }
+   
 
     public function all_category_product(){
         //$this->AuthLogin();
         $categories = CategoryModel::all();
-        return view('layout.admin.categories.all_category_product', compact('categories'));
+        return response()->json(['data' => $categories]);
     }
 
     public function save_category_product(Request $request){
@@ -62,7 +59,7 @@ class CategoryController extends Controller
     public function edit_category_product($category_product_id){
         //$this->AuthLogin();
         $edit_category_product = CategoryModel::findOrFail($category_product_id);
-        return view('layout.admin.categories.edit_category_product', compact('edit_category_product'));
+        return response()->json(['data' => $edit_category_product]);
     }
 
     public function update_category_product(Request $request,$category_product_id){

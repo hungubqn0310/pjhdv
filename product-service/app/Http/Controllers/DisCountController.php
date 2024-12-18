@@ -7,15 +7,12 @@ use Illuminate\Http\Request;
 
 class DisCountController extends Controller
 {
-    public function add_discount(){
-        //$this->AuthLogin();
-    	return view('layout.admin.discounts.add_discount');
-    }
+    
 
     public function all_discount(){
         //$this->AuthLogin();
         $discounts = DiscountModel::all();
-    	return view('layout.admin.discounts.all_discount', compact('discounts'));
+    	return response()->json(['data' => $discounts]);
     }
 
     public function save_discount(Request $request){
@@ -39,7 +36,7 @@ class DisCountController extends Controller
     public function edit_discount($discount_id){
         //$this->AuthLogin();
         $edit_discount = DiscountModel::findOrFail($discount_id);
-        return view('layout.admin.discounts.edit_discount', compact('edit_discount'));
+        return response()->json(['data' => $edit_discount]);
     }
 
     public function update_discount(Request $request,$discount_id){
